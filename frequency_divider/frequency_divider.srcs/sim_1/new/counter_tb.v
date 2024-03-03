@@ -1,11 +1,11 @@
-
+`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
 // 
-// Create Date: 29.02.2024 00:31:52
+// Create Date: 03.03.2024 13:07:28
 // Design Name: 
-// Module Name: top
+// Module Name: counter_tb
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,9 +19,24 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module top(input [15:0] sw_i, output [7:0] an_o, seg_o);
-    wire parity_bit;
-    assign parity_bit = ^sw_i;
-    assign an_o = 7'b1110;
-    assign seg_o = parity_bit ? 7'b00000011 : 7'b01100001; //O = 00000011 E = 01100001
+
+module counter_tb();
+    
+    reg clk;
+    reg rst;
+    wire led;
+    
+    always #5 clk = ~clk;
+    
+    top u0(clk, rst, led);
+    defparam u0.DIVISOR = 5;
+    
+    initial begin
+        clk = 0;
+        rst = 1;
+        #500 rst = 0;
+        #1 rst = 1;
+        #500 $finish;
+    end
+    
 endmodule
