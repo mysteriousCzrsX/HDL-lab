@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 29.02.2024 00:31:52
+// Create Date: 01.03.2024 18:23:41
 // Design Name: 
-// Module Name: top
+// Module Name: testbench
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,9 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(input [15:0] sw_i, output [7:0] an_o, seg_o);
-    wire parity_bit;
-    assign parity_bit = ^sw_i;
-    assign an_o = 1110;
-    assign seg_o = parity_bit ? 00000011 : 01100001;
+module testbench();
+
+wire sw_i[15:0];
+wire seg_o[7:0];
+wire an_o[7:0];
+
+
+
+
+
 endmodule
