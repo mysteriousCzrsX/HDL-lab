@@ -22,12 +22,16 @@
 
 module testbench();
 
-wire sw_i[15:0];
-wire seg_o[7:0];
-wire an_o[7:0];
-
-
-
-
-
+    reg [15:0] sw_i;
+    wire [7:0] seg_o;
+    wire [7:0] an_o;
+    integer i;
+    top u0(sw_i, an_o, seg_o);
+    initial begin
+        sw_i = 16'b0;
+        for(i = 0; i < 30; i = i+1)begin
+            #5 sw_i = sw_i + 16'b1;
+        end
+        $finish;
+    end
 endmodule
