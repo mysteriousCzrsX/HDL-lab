@@ -27,8 +27,8 @@ module top
     
     assign led_o = divided_out;
     
-    always @ (posedge clk_i or negedge rst_i) begin
-        if(!rst_i) begin
+    always @ (posedge clk_i or posedge rst_i) begin
+        if(rst_i) begin
             divided_out = 0;
             counter = 0;
         end else begin

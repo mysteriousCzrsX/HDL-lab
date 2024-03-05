@@ -33,9 +33,9 @@ module counter_tb();
     
     initial begin
         clk = 0;
-        rst = 1;
-        #500 rst = 0;
-        #1 rst = 1;
+        rst = 0;
+        #525 rst = 1;
+        #40 rst = 0;
         #500 $finish;
     end
     

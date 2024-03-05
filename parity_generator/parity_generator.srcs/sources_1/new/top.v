@@ -22,6 +22,6 @@
 module top(input [15:0] sw_i, output [7:0] an_o, seg_o);
     wire parity_bit;
     assign parity_bit = ^sw_i;
-    assign an_o = 7'b1110;
-    assign seg_o = parity_bit ? 7'b00000011 : 7'b01100001; //O = 00000011 E = 01100001
+    assign an_o = 8'b11111110;
+    assign seg_o = parity_bit ? 8'b00000011 : 8'b01100001; //O = 00000011 E = 01100001
 endmodule
