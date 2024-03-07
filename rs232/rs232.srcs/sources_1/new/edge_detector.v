@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05.03.2024 21:32:42
+// Create Date: 07.03.2024 23:39:56
 // Design Name: 
-// Module Name: top
+// Module Name: edge_detector
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,9 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top(input clk_i, rst_i, RXD_i, output TXD_o);
-wire [7:0] uart_data;
-
-uart_rx reciever(clk_i, rst_i, RXD_i, uart_data);
-
+module edge_detector(input clk, input_signal, output edge_out);
+    
+    reg previous_signal;
+    
+    always @ (posedge clk) begin
+        previous_signal =  input_signal;        
+    end
+    
+    assign edge_out = ~input_signal & previous_signal;
+    
 endmodule
