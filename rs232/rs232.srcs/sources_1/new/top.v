@@ -22,7 +22,12 @@
 
 module top(input clk_i, rst_i, RXD_i, output TXD_o);
 wire [7:0] uart_data;
+wire [7:0] uart_data_added;
+wire data_ready;
 
-uart_rx reciever(clk_i, rst_i, RXD_i, uart_data);
+assign uart_data_added = uart_data + 8'h20;
+
+uart_rx reciever(clk_i, rst_i, RXD_i, data_ready, uart_data);
+uart_tx transmiter(clk_i, rst_i, data_ready, uart_data_added, TXD_o);
 
 endmodule

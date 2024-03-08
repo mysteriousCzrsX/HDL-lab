@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module uart_rx(input clk, rst, data_in, output [7:0] data_out);
+module uart_rx(input clk, rst, data_in, data_ready, output [7:0] data_out);
     localparam IDLE = 0;
     localparam DATA_WAIT = 1;
     localparam RECIEVING = 2;
@@ -31,10 +31,15 @@ module uart_rx(input clk, rst, data_in, output [7:0] data_out);
     reg [7:0] recieved_data_buff = 0;
     reg [1:0] state = IDLE;
     reg [4:0] data_counter = 0;
+    reg rx_complete = 0;
+    
     integer delay_counter = 0;
+    wire data_edge;
+    
+    edge_detector detector(clk, data_in, data_edge);
     
     assign data_out = recieved_data_buff;
-    
+    assign data_ready = rx_complete;
     always @ (posedge clk, posedge rst)begin
         
         if(rst) begin
@@ -45,7 +50,8 @@ module uart_rx(input clk, rst, data_in, output [7:0] data_out);
         end else begin
             case (state)
                 IDLE: begin
-                    if(!data_in)
+                    rx_complete = 0;
+                    if(data_edge)
                         state = DATA_WAIT;
                 end
                 
@@ -67,6 +73,7 @@ module uart_rx(input clk, rst, data_in, output [7:0] data_out);
                     if(data_counter >= 8) begin
                         state = IDLE;
                         data_counter = 0;
+                        rx_complete = 1;
                     end
                 end
                 
