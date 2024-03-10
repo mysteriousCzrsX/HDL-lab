@@ -47,6 +47,20 @@ module rs232_tb();
         for(i = 0; i < 15; i = i + 1) begin
             #PERIOD;
         end
+        
+        #PERIOD;
+        #PERIOD RXD = 0;
+        for(i = 0; i < 8; i = i + 1) begin
+            #PERIOD RXD = serial_data[i];
+        end
+        #PERIOD RXD = 1;
+        for(i = 0; i < 15; i = i + 1) begin
+            if(i == 5) begin
+                rst = 1;
+                #5000 rst = 0;
+            end
+            #PERIOD;
+        end
         $finish; 
      end
 endmodule

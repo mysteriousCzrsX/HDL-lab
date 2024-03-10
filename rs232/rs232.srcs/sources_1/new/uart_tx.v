@@ -23,8 +23,7 @@
 module uart_tx(input clk, rst, tx_enable, input [7:0] data_in, output data_out);
     localparam IDLE = 0;
     localparam TRANSMITING = 1;
-
-    localparam START_DELAY = 5200;
+    
     localparam SAMPLE_DELAY = 10400;
     
     reg serial_out = 1;
@@ -48,7 +47,7 @@ module uart_tx(input clk, rst, tx_enable, input [7:0] data_in, output data_out);
         end else begin
             case (state)
                 IDLE: begin
-                    if(tx_en_edge)begin //fix this
+                    if(tx_en_edge)begin 
                         state = TRANSMITING;
                         data_out_buff[8:1] = data_in;
                     end
@@ -57,11 +56,11 @@ module uart_tx(input clk, rst, tx_enable, input [7:0] data_in, output data_out);
                 TRANSMITING : begin
                     delay_counter = delay_counter + 1;
                     if(delay_counter >= SAMPLE_DELAY)begin
-                        serial_out = data_out_buff[data_counter];
                         data_counter = data_counter + 1;
                         delay_counter = 0;
-                    end
-                    if(data_counter >= 10) begin
+                    end else
+                        serial_out = data_out_buff[data_counter];
+                    if(data_counter > 9) begin
                         state = IDLE;
                         data_counter = 0;
                     end
